@@ -1,0 +1,30 @@
+{
+  "name": "zdcors",
+  "version": "1.0.0",
+  "description": "A Zero-Dependancy Implimentation for CORS, CSP, and Permission-Policy headers for usage in a multitude of applications",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/therealbenpai/zdcors.git"
+  },
+  "keywords": [
+    "cors",
+    "headers",
+    "http",
+    "website",
+    "security",
+    "csp"
+  ],
+  "author": {
+    "name": "Benjamin",
+    "email": "therealbenpai@gmail.com"
+  },
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/therealbenpai/zdcors/issues"
+  },
+  "homepage": "https://github.com/therealbenpai/zdcors#readme"
+}

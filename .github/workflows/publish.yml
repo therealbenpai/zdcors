@@ -1,0 +1,51 @@
+name: Publish NPM Package
+
+on:
+  push:
+    tags:
+      - v*
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout
+      - name: Set up Node.js
+        uses: actions/setup-node
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm ci
+      - name: Bump Version
+        id: version
+        uses: anothrNick/github-tag-action
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          default_bump: minor
+          push: true
+      - name: Publish to NPM
+        run: npm publish --access public --providence
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          body: |
+            Changes in this Release
+          draft: false
+          prerelease: false
+      - name: Job Summary
+        run: |
+          echo "Published to NPM and created a release" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "NPM Package: https://www.npmjs.com/package/" >> $GITHUB_STEP_SUMMARY
