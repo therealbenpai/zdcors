@@ -22,21 +22,14 @@ jobs:
           node-version: 20
       - name: Publish to NPM
         run: |
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ~/.npmrc
           echo "//npm.pkg.github.com/:_authToken=${GH_TOKEN}" >> ~/.npmrc
           npm publish --access public --providence --registry https://registry.npmjs.org/
-          npm publish --access public --registry https://npm.pkg.github.com/
+          npm publish --access public --registry https://npm.pkg.github.com/therealbenpai
           echo "Published to NPM & GitHub Packages" >> $GITHUB_STEP_SUMMARY
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Publish to GitHub Package Registry
-        run: |
-          echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
-          npm publish --access public --registry https://npm.pkg.github.com/
-          echo "Published to GitHub Package Registry" >> $GITHUB_STEP_SUMMARY
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Job Summary
         run: |
           echo "Published to NPM and GitHub Registry" >> $GITHUB_STEP_SUMMARY
