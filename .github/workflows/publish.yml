@@ -24,14 +24,16 @@ jobs:
         run: |
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ~/.npmrc
           echo "//npm.pkg.github.com/:_authToken=${GH_TOKEN}" >> ~/.npmrc
-          npm publish --access public --providence --registry https://registry.npmjs.org/
-          npm publish --access public --registry https://npm.pkg.github.com/therealbenpai
+          npm publish --provenance --registry https://registry.npmjs.org/
+          npm publish --registry https://npm.pkg.github.com/therealbenpai
+          echo "=== Start of Transmition ===" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
           echo "Published to NPM & GitHub Packages" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "NPM Package: https://www.npmjs.com/package/@therealbenpai/zdcors" >> $GITHUB_STEP_SUMMARY
+          echo "GitHub Package: https://github.com/therealbenpai/zdcors/pkgs/npm/zdcors" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "=== End of Transmition ===" >> $GITHUB_STEP_SUMMARY
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Job Summary
-        run: |
-          echo "Published to NPM and GitHub Registry" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "NPM Package: https://www.npmjs.com/package/zdcors" >> $GITHUB_STEP_SUMMARY
