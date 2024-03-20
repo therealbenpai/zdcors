@@ -1,6 +1,6 @@
 {
-  "name": "zdcors",
-  "version": "1.0.0",
+  "name": "@therealbenpai/zdcors",
+  "version": "1.0.1",
   "description": "A Zero-Dependancy Implimentation for CORS, CSP, and Permission-Policy headers for usage in a multitude of applications",
   "main": "index.js",
   "scripts": {
@@ -26,5 +26,10 @@
   "bugs": {
     "url": "https://github.com/therealbenpai/zdcors/issues"
   },
-  "homepage": "https://github.com/therealbenpai/zdcors#readme"
+  "homepage": "https://github.com/therealbenpai/zdcors#readme",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/therealbenpai",
+    "access": "public",
+    "tag": "latest"
+  }
 }
