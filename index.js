@@ -64,4 +64,15 @@ class PermissionPolicy {
     }
 }
 
-module.exports = { WebSecurity, CSPObj, ReportToGroup, ReportingEndpoint, PermissionPolicy };
+const Headers = (headers) => (_req, res, next) => {
+    headers.CORS.forEach(h => res.setHeader(h[0], h[1]));
+    res
+        .setHeader('Content-Security-Policy', headers.CSP)
+        .setHeader('Strict-Transport-Security', headers.HSTS)
+        .setHeader('Report-To', headers.ReportTo)
+        .setHeader('Reporting-Endpoints', headers.ReportingEndpoints)
+        .setHeader('Permission-Policy', headers.PermissionPolicy)
+    next();
+};
+
+module.exports = { WebSecurity, CSPObj, ReportToGroup, ReportingEndpoint, PermissionPolicy, Headers };

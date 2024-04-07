@@ -1,6 +1,6 @@
 {
   "name": "@therealbenpai/zdcors",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A Zero-Dependancy Implimentation for CORS, CSP, and Permission-Policy headers for usage in a multitude of applications",
   "main": "index.js",
   "readme": "README.md",

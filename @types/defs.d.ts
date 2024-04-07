@@ -1,3 +1,5 @@
+import { IncomingMessage, OutgoingMessage } from 'http'
+
 /**
  * Module: `@therealbenpai/zdcors`
  * 
@@ -8,6 +10,9 @@
  * The module follows the specifications set forth by the Mozilla Developer Network (MDN) and the World Wide Web Consortium (W3C).
  */
 declare module '@therealbenpai/zdcors' {
+    declare type CSPSectors = 'imgSrc' | 'fontSrc' | 'baseUri' | 'mediaSrc' | 'childSrc' | 'reportTo' | 'styleSrc' | 'objectSrc' | 'reportUri' | 'scriptSrc' | 'defaultSrc' | 'connectSrc' | 'formAction' | 'prefetchSrc' | 'manifestSrc' | 'blockAllMixedContent' | 'requireTrustedTypesFor' | 'upgradeInsecureRequests'
+    declare type CSPDirectives = 'unsafe-inline' | 'unsafe-eval' | 'unsafe-hashes' | 'strict-dynamic'
+    declare type PermissionPolicySectors = 'hid' | 'usb' | 'midi' | 'camera' | 'serial' | 'battery' | 'gamepad' | 'payment' | 'autoplay' | 'webShare' | 'bluetooth' | 'gyroscope' | 'fullscreen' | 'localFonts' | 'microphone' | 'geolocation' | 'magnetometer' | 'accelerometer' | 'idleDetection' | 'storageAccess' | 'browsingTopics' | 'screenWakeLock' | 'otpCredentials' | 'display-capture' | 'document-domain' | 'encrypted-media' | 'windowManagement' | 'pictureInPicture' | 'speakerSelection' | 'xrSpacialTracking' | 'ambientLightSensor' | 'identityCredentialsGet' | 'publickeyCredentialsGet' | 'executionWhileNotRendered' | 'publickeyCredentialsCreate' | 'executionWhileOutOfViewport'
     /**
      * CORS Access Control Object
      * 
@@ -248,11 +253,11 @@ declare module '@therealbenpai/zdcors' {
      */
     export declare class CSPObj {
         /** The Identifier of the specific CSP Sector */
-        key: string;
+        key: CSPSectors;
         /** Whether or not the sector should be set to completely disable access to the feature */
         none: boolean;
         /** A list of directives for the CSP sector */
-        directives: Array<string>;
+        directives: Array<CSPDirectives | string>;
         /** Whether or not the sector should be set to allow access to the host for the feature */
         self: boolean;
         /** Whether or not the sector should be set to allow access to any website for the feature */
@@ -261,11 +266,11 @@ declare module '@therealbenpai/zdcors' {
         domains: Array<string>;
         constructor(
             /** The Identifier of the specific CSP Sector */
-            key: string,
+            key: CSPSectors,
             /** Whether or not the sector should be set to completely disable access to the feature */
             none: boolean,
             /** A list of directives for the CSP sector */
-            directives: Array<string>,
+            directives: Array<CSPDirectives | string>,
             /** Whether or not the sector should be set to allow access to the host for the feature */
             self: boolean,
             /** Whether or not the sector should be set to allow access to any website for the feature */
@@ -323,7 +328,7 @@ declare module '@therealbenpai/zdcors' {
      */
     export declare class PermissionPolicy {
         /** The Identifier of the specific Permission Policy */
-        key: string;
+        key: PermissionPolicySectors;
         /** Whether or not the directive should be set to completely disable access to the PermissionPolicy */
         none: boolean;
         /** Whether or not the directive should be set to allow access to the host for the PermissionPolicy */
@@ -336,9 +341,29 @@ declare module '@therealbenpai/zdcors' {
         domains: Array<string>;
         constructor(
             /** The Identifier of the specific Permission Policy */
-            key: string,
+            key: PermissionPolicySectors,
             /** The data for the Permission Policy */
             data: PermissionPolicyObj
         )
     }
+
+    declare interface HeadersInterface {
+        /** The array of CORS Headers */
+        CORS: Array<string>
+        /** The HSTS Header */
+        CSP: string
+        /** The Report-To Header */
+        HSTS: string
+        /** The Reporting-Endpoints Header */
+        ReportTo: string
+        /** The Permission Policy Header */
+        ReportingEndpoints: string
+        /** The Permission Policy Header */
+        PermissionPolicy: string
+    }
+
+    export declare const Headers: (
+        /** The Headers to be setup */
+        headers: HeadersInterface
+    ) => (_req: IncomingMessage, res: OutgoingMessage, next: () => void) => void
 }
