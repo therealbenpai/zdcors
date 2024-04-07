@@ -1,10 +1,14 @@
 {
   "name": "@therealbenpai/zdcors",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A Zero-Dependancy Implimentation for CORS, CSP, and Permission-Policy headers for usage in a multitude of applications",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "readme": "README.md",
+  "types": "@types/defs.d.ts",
+  "author": {
+    "name": "Benjamin",
+    "email": "therealbenpai@gmail.com",
+    "url": "https://ben.thefemdevs.com"
   },
   "repository": {
     "type": "git",
@@ -18,9 +22,15 @@
     "security",
     "csp"
   ],
-  "author": {
-    "name": "Benjamin",
-    "email": "therealbenpai@gmail.com"
+  "funding": [
+    {
+      "type": "individual",
+      "url": "https://github.com/sponsors/therealbenpai"
+    }
+  ],
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
   },
   "license": "GPL-3.0-or-later",
   "bugs": {

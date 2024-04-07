@@ -20,42 +20,16 @@ class WebSecurity {
         ['Cross-Origin-Resource-Policy', crossOrigin.resourcePolicy || 'cross-origin'],
         ['Cross-Origin-Embedder-Policy', crossOrigin.embedderPolicy || 'require-corp']
     ];
-    /** @param {{ma: number, iSD: boolean, pl: boolean}} data */
     static HSTS = (data) => `max-age=${data.ma || 31536000}${(data.iSD) ? '; includeSubDomains' : ''}${(data.pl) ? '; preload' : ''}`;
-    /** @param {Array<ReportToGroup>} data */
     static ReportTo = (...data) => data.map(g => JSON.stringify({ group: g.group, max_age: g.max_age, endpoints: g.endpoints })).join(', ');
-    /** @param {Array<ReportingEndpoint>} data */
     static ReportingEndpoints = (...data) => data.reduce((acc, ep) => acc += `${ep.id.replace(/([A-Z])/g, '-$1').toLowerCase()}: ${ep.url}, `, '').slice(0, -2);
-    /** @param {Array<PermissionPolicy>} data */
     static PermissionPolicy = (...data) => data.reduce((acc, { key, ...value }) => acc += `${key.replace(/([A-Z])/g, '-$1').toLowerCase()}=${(value.wildcard) ? '*' : `(${(value.none) ? '' : `${(value.self) ? '\'self\' ' : ''}${(value.src) ? '\'src\' ' : ''}${(Array.isArray(value.domains) && value.domains) ? value.domains.map(v => `"${v}"`).join(' ') : ''}`.trim()})`}, `, '').slice(0, -2);
-    /** @param {string} domain */
     static CD = (domain) => [domain, `*.${domain}`];
 }
 
 class CSPObj {
-    /**
-     * @param {string} key 
-     * @param {{none?: boolean, directives?: Array<string>, self?: boolean, wildcard?: boolean, domains?: Array<string>}} data 
-     */
-    constructor(key, data) {
+    constructor(key, none, directives, self, wildcard, domains) {
         this.key = key;
-        this.none = data.none ?? false;
-        this.directives = data.directives ?? [];
-        this.self = data.self ?? false;
-        this.wildcard = data.wildcard ?? false;
-        this.domains = data.domains ?? [];
-    }
-}
-
-class CSPObjData {
-    /**
-     * @param {boolean} none 
-     * @param {Array<string>} directives 
-     * @param {boolean} self 
-     * @param {boolean} wildcard 
-     * @param {Array<string>} domains 
-     */
-    constructor(none, directives, self, wildcard, domains) {
         this.none = none;
         this.directives = directives;
         this.self = self;
@@ -65,11 +39,6 @@ class CSPObjData {
 }
 
 class ReportToGroup {
-    /**
-     * @param {string} group 
-     * @param {number} max_age 
-     * @param {Array<string>} endpoints 
-     */
     constructor(group, max_age, endpoints) {
         this.group = group;
         this.max_age = max_age;
@@ -78,10 +47,6 @@ class ReportToGroup {
 }
 
 class ReportingEndpoint {
-    /**
-     * @param {string} id 
-     * @param {string} url 
-     */
     constructor(id, url) {
         this.id = id;
         this.url = url;
@@ -89,10 +54,6 @@ class ReportingEndpoint {
 }
 
 class PermissionPolicy {
-    /**
-     * @param {string} key 
-     * @param {{none?: boolean, self?: boolean, wildcard?: boolean, src?: boolean, domains?: Array<string>}} data 
-     */
     constructor(key, data) {
         this.key = key;
         this.none = data.none ?? false;
@@ -103,4 +64,4 @@ class PermissionPolicy {
     }
 }
 
-module.exports = { WebSecurity, CSPObj, CSPObjData, ReportToGroup, ReportingEndpoint, PermissionPolicy };
+module.exports = { WebSecurity, CSPObj, ReportToGroup, ReportingEndpoint, PermissionPolicy };
