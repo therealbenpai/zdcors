@@ -36,5 +36,6 @@
   "bugs": {
     "url": "https://github.com/therealbenpai/zdcors/issues"
   },
-  "homepage": "https://github.com/therealbenpai/zdcors#readme"
+  "homepage": "https://github.com/therealbenpai/zdcors#readme",
+  "dependencies": {}
 }

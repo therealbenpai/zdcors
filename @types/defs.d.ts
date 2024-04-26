@@ -1,4 +1,4 @@
-import { IncomingMessage, OutgoingMessage } from 'http'
+import * as express from './express'
 
 /**
  * Module: `@therealbenpai/zdcors`
@@ -8,23 +8,48 @@ import { IncomingMessage, OutgoingMessage } from 'http'
  * This module is designed to be used in a Node.js environment and is not intended for use in a browser environment.
  * 
  * The module follows the specifications set forth by the Mozilla Developer Network (MDN) and the World Wide Web Consortium (W3C).
+ * 
+ * @license GPL-3.0-or-later
+ * @copyright
+ * 2024 © TheRealBenpai (in association with The FemDevs). All Rights Reserved.
+ *
+ * Removal of this copyright notice is prohibited under 17 U.S.C. §§ 101-810 and 44 U.S.C. §§ 505, 2113; 18 U.S.C. § 2318 (Copyright Act of 1976).
  */
 declare module '@therealbenpai/zdcors' {
-    declare type CSPSectors = 'imgSrc' | 'fontSrc' | 'baseUri' | 'mediaSrc' | 'childSrc' | 'reportTo' | 'styleSrc' | 'objectSrc' | 'reportUri' | 'scriptSrc' | 'defaultSrc' | 'connectSrc' | 'formAction' | 'prefetchSrc' | 'manifestSrc' | 'blockAllMixedContent' | 'requireTrustedTypesFor' | 'upgradeInsecureRequests'
-    declare type CSPDirectives = 'unsafe-inline' | 'unsafe-eval' | 'unsafe-hashes' | 'strict-dynamic'
-    declare type PermissionPolicySectors = 'hid' | 'usb' | 'midi' | 'camera' | 'serial' | 'battery' | 'gamepad' | 'payment' | 'autoplay' | 'webShare' | 'bluetooth' | 'gyroscope' | 'fullscreen' | 'localFonts' | 'microphone' | 'geolocation' | 'magnetometer' | 'accelerometer' | 'idleDetection' | 'storageAccess' | 'browsingTopics' | 'screenWakeLock' | 'otpCredentials' | 'display-capture' | 'document-domain' | 'encrypted-media' | 'windowManagement' | 'pictureInPicture' | 'speakerSelection' | 'xrSpacialTracking' | 'ambientLightSensor' | 'identityCredentialsGet' | 'publickeyCredentialsGet' | 'executionWhileNotRendered' | 'publickeyCredentialsCreate' | 'executionWhileOutOfViewport'
+    /**
+     * Content Security Policy Sectors
+     * 
+     * A list of all the possible CSP Sectors that can be used in the CSP Object
+     */
+    type CSPSectors = 'imgSrc' | 'fontSrc' | 'baseUri' | 'mediaSrc' | 'childSrc' | 'reportTo' | 'styleSrc' | 'objectSrc' | 'reportUri' | 'scriptSrc' | 'defaultSrc' | 'connectSrc' | 'formAction' | 'prefetchSrc' | 'manifestSrc' | 'blockAllMixedContent' | 'requireTrustedTypesFor' | 'upgradeInsecureRequests'
+    /**
+     * Content Security Policy Directives
+     * 
+     * A list of all the possible CSP Directives that can be used in the CSP Object
+     */
+    type CSPDirectives = 'unsafe-inline' | 'unsafe-eval' | 'unsafe-hashes' | 'strict-dynamic'
+    /**
+     * Permission Policy Sectors
+     * 
+     * A list of all the possible Permission Policy Sectors that can be used in the Permission Policy Object
+     */
+    type PermissionPolicySectors = 'hid' | 'usb' | 'midi' | 'camera' | 'serial' | 'battery' | 'gamepad' | 'payment' | 'autoplay' | 'webShare' | 'bluetooth' | 'gyroscope' | 'fullscreen' | 'localFonts' | 'microphone' | 'geolocation' | 'magnetometer' | 'accelerometer' | 'idleDetection' | 'storageAccess' | 'browsingTopics' | 'screenWakeLock' | 'otpCredentials' | 'display-capture' | 'document-domain' | 'encrypted-media' | 'windowManagement' | 'pictureInPicture' | 'speakerSelection' | 'xrSpacialTracking' | 'ambientLightSensor' | 'identityCredentialsGet' | 'publickeyCredentialsGet' | 'executionWhileNotRendered' | 'publickeyCredentialsCreate' | 'executionWhileOutOfViewport'
+    /**
+     * **C**ORS **C**ross **O**rigin **P**olicy Type
+     */
+    type CCOP = 'same-origin' | 'same-site' | 'cross-origin'
     /**
      * CORS Access Control Object
      * 
      * An object that contains all the necessary information to set the CORS `Access-Control-*` headers
      */
-    declare interface CorsAccessControlObj {
+    interface CorsAccessControlObj {
         /**
          * Access Control Expose Headers
          * 
          * Used to set the `Access-Control-Expose-Headers` header
          * 
-         * [MDN Docs Referance](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Expose-Headers)
+         * {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Expose-Headers MDN Docs Referance}
          */
         exposeHeaders: Array<string>
         /**
@@ -32,7 +57,7 @@ declare module '@therealbenpai/zdcors' {
          * 
          * Used to set the `Access-Control-Allow-Methods` header
          * 
-         * [MDN Docs Referance](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Methods)
+         * {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Methods MDN Docs Referance}
          */
         allowMethods: Array<string>
         /**
@@ -40,7 +65,7 @@ declare module '@therealbenpai/zdcors' {
          * 
          * Used to set the `Access-Control-Allow-Headers` header
          * 
-         * [MDN Docs Referance](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers)
+         * {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers MDN Docs Referance}
          */
         allowHeaders: Array<string>
         /**
@@ -48,7 +73,7 @@ declare module '@therealbenpai/zdcors' {
          * 
          * Used to set the `Access-Control-Max-Age` header
          * 
-         * [MDN Docs Referance](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age)
+         * {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age MDN Docs Referance}
          */
         maxAge: number
         /**
@@ -56,7 +81,7 @@ declare module '@therealbenpai/zdcors' {
          * 
          * Used to set the `Access-Control-Allow-Origin` header
          * 
-         * [MDN Docs Referance](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)
+         * {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin MDN Docs Referance}
          */
         allowOrigin: string
         /**
@@ -64,7 +89,7 @@ declare module '@therealbenpai/zdcors' {
          * 
          * Used to set the `Access-Control-Allow-Credentials` header
          * 
-         * [MDN Docs Referance](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials)
+         * {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials MDN Docs Referance}
          */
         allowCredentials: boolean
     }
@@ -73,46 +98,46 @@ declare module '@therealbenpai/zdcors' {
      * 
      * An object that contains all the necessary information to set the CORS `Cross-Origin-*` headers
      */
-    declare interface CorsCrossOriginObj {
+    interface CorsCrossOriginObj {
         /**
-         * CORS Origin
+         * COOP Origin
          * 
          * Used to set the `Cross-Origin-Opener-Policy` header
          * 
-         * [MDN Docs Referance](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Opener-Policy)
+         * {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Opener-Policy MDN Docs Referance}
          */
-        openerPolicy: 'same-origin' | 'same-site' | 'cross-origin'
+        openerPolicy: CCOP
         /**
-         * CORS Method
+         * COOP Method
          * 
          * Used to set the `Cross-Origin-Resource-Policy` header
          * 
-         * [MDN Docs Referance](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Resource-Policy)
+         * {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Resource-Policy MDN Docs Referance}
          */
-        resourcePolicy: 'same-origin' | 'same-site' | 'cross-origin'
+        resourcePolicy: CCOP
         /**
-         * CORS Embedder
+         * COOP Embedder
          * 
          * Used to set the `Cross-Origin-Embedder-Policy` header
          * 
-         * [MDN Docs Referance](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Embedder-Policy)
+         * {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Embedder-Policy MDN Docs Referance}
          */
-        embedderPolicy: 'same-origin' | 'same-site' | 'cross-origin'
+        embedderPolicy: CCOP
     }
     /**
      * HSTS Header Object
      * 
      * An object that contains all the necessary information to set the HSTS (`Strict-Transport-Security`) header
      * 
-     * [MDN Docs Referance](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security)
+     * {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security MDN Docs Referance}
      */
-    declare interface HSTSObj {
+    interface HSTSObj {
         /** Max Age of the HSTS Policy */
-        ma: number
+        ma: number;
         /** Whether or not the HSTS Policy should includes subdomains */
-        iSD: boolean
+        iSD: boolean;
         /** Whether or not the HSTS Policy should include preloading capabilities */
-        pl: boolean
+        pl: boolean;
     }
     /**
      * Permission Policy Object
@@ -120,45 +145,43 @@ declare module '@therealbenpai/zdcors' {
      * An object that contains all the necessary information to specify a Permission Policy directive for usage
      * in the `Permissions-Policy` header
      * 
-     * [MDN Docs Referance](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions_Policy)
+     * {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions_Policy MDN Docs Referance}
      * 
-     * [MDN Docs Allowlist Referance](https://developer.mozilla.org/en-US/docs/Web/HTTP/Permissions_Policy#allowlists)
+     * {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Permissions_Policy#allowlists MDN Docs Allowlist Referance}
      */
-    declare interface PermissionPolicyObj {
+    interface PermissionPolicyObj {
         /** Whether or not the directive should be set to completely disable access to the feature */
-        none?: boolean
+        none?: boolean;
         /** Whether or not the directive should be set to allow access to the host for the feature */
-        self?: boolean
+        self?: boolean;
         /** Whether or not the directive should be set to allow access to any website for the feature */
-        wildcard?: boolean
+        wildcard?: boolean;
         /** Whether or not the directive should be set to allow access to content from the same host as the source in `iframe` elements */
-        src?: boolean
+        src?: boolean;
         /** A list of domains that the directive should be set to allow access to */
-        domains?: Array<string>
+        domains?: Array<string>;
     }
     /**
      * Web Security Class
      * 
      * This class contains a multitude of functions that allow for quick and easy generation of basic HTTP security headers
      * including, but not limited to;
-     * - Content Security Policy
-     * - CORS Headers
-     * - HSTS Headers
-     * - Reporting Headers
-     * - Permission Policy Headers
+     * - {@link WebSecurity.CSP Content Security Policy}
+     * - {@link WebSecurity.CORS CORS Headers}
+     * - {@link WebSecurity.HSTS HSTS Headers}
+     * - {@link WebSecurity.ReportTo Reporting Headers}
+     * - {@link WebSecurity.ReportingEndpoints Reporting Endpoints}
      */
-    export declare class WebSecurity {
+    export class WebSecurity {
         /**
          * Content Security Policy
          * 
          * Used to generate a Content Security Policy
          * 
          * Returns a string that should be set as the value for the `Content-Security-Policy` header
+         * @param CSPs The array of CSP Sectors to be used
          */
-        static CSP: (
-            /** The array of CSP Sectors to be used */
-            ...CSPs: CSPObj
-        ) => string;
+        static CSP: (...CSPs: Array<CSPObj>) => string;
         /**
          * CORS Headers
          * 
@@ -179,14 +202,11 @@ declare module '@therealbenpai/zdcors' {
          * // ...
          * ```
          * 
-         * [MDN Docs Referance](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
+         * {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS MDN Docs Referance}
+         * @param accessControl The Access Control Directive Object
+         * @param crossOrigin The Cross Origin Directive Object
          */
-        static CORS: (
-            /** The Access Control Directive Object */
-            accessControl: CorsAccessControlObj,
-            /** The Cross Origin Directive bject */
-            crossOrigin: CorsCrossOriginObj
-        ) => Array<string>;
+        static CORS: (accessControl: CorsAccessControlObj, crossOrigin: CorsCrossOriginObj) => Array<string>;
         /**
          * HSTS Headers
          * 
@@ -194,64 +214,54 @@ declare module '@therealbenpai/zdcors' {
          * 
          * Returns a string that should be set as the value for the `Strict-Transport-Security` header
          * 
-         * [MDN Docs Referance](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security)
+         * {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security MDN Docs Referance}
+         * @param hsts The HSTS Directive
          */
-        static HSTS: (
-            /** The HSTS Directive */
-            hsts: HSTSObj
-        ) => string;
+        static HSTS: (hsts: HSTSObj) => string;
         /**
          * Reporting Headers
          * 
          * Returns a string that should be set as the value for the `Report-To` header
          * 
-         * [MDN Docs Referance](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Report-To)
+         * {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Report-To MDN Docs Referance}
+         * @param data The array of Report-To Groups
          */
-        static ReportTo: (
-            /** The array of Report-To Groups */
-            ...data: ReportToGroup
-        ) => string;
+        static ReportTo: (...data: Array<ReportToGroup>) => string;
         /**
          * Reporting Endpoints
          * 
          * Returns a string that should be set as the value for the `Reporting-Endpoints` header
          * 
-         * [MDN Docs Referance](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Reporting-Endpoints)
+         * {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Reporting-Endpoints MDN Docs Referance}
+         * @param data The array of Reporting Endpoints
          */
-        static ReportingEndpoints: (
-            /** The array of Reporting Endpoints */
-            ...data: ReportingEndpoint
-        ) => string;
+        static ReportingEndpoints: (...data: Array<ReportingEndpoint>) => string;
         /**
          * Permission Policy
          * 
          * Returns a string that should be set as the value for the `Permissions-Policy` header
          * 
-         * [MDN Docs Referance](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions_Policy)
+         * {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions_Policy MDN Docs Referance}
+         * @param data The array of Permission Policies
          */
-        static PermissionPolicy: (
-            /** The array of Permission Policies */
-            ...data: PermissionPolicy
-        ) => string;
+        static PermissionPolicy: (...data: Array<PermissionPolicy>) => string;
         /**
          * Complete Domain Function
          * 
          * A utility function that takes in a domain and returns an array containing the domain and
          * the domain with a wildcard subdomain specifier
-         */
-        static CD: (
-            /** The domain to be used */
-            domain: string
-        ) => [string, string];
+         * @param domain The domain to be used
+        */
+        static CD: (domain: string) => [string, string];
     }
     /**
      * Content Security Policy Object
      * 
      * An object that contains all the necessary information to setup a segment of the CSP header
      * 
-     * [MDN Docs Referance](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy)
+     * {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy MDN Docs Referance}
      */
-    export declare class CSPObj {
+    export class CSPObj {
         /** The Identifier of the specific CSP Sector */
         key: CSPSectors;
         /** Whether or not the sector should be set to completely disable access to the feature */
@@ -264,69 +274,63 @@ declare module '@therealbenpai/zdcors' {
         wildcard: boolean;
         /** A list of domains that the sector should be set to allow access to */
         domains: Array<string>;
-        constructor(
-            /** The Identifier of the specific CSP Sector */
-            key: CSPSectors,
-            /** Whether or not the sector should be set to completely disable access to the feature */
-            none: boolean,
-            /** A list of directives for the CSP sector */
-            directives: Array<CSPDirectives | string>,
-            /** Whether or not the sector should be set to allow access to the host for the feature */
-            self: boolean,
-            /** Whether or not the sector should be set to allow access to any website for the feature */
-            wildcard: boolean,
-            /** A list of domains that the sector should be set to allow access to */
-            domains: Array<string>
-        )
+        /**
+         * @param key The Identifier of the specific CSP Sector
+         * @param none Whether or not the sector should be set to completely disable access to the feature
+         * @param directives A list of directives for the CSP sector
+         * @param self Whether or not the sector should be set to allow access to the host for the feature
+         * @param wildcard Whether or not the sector should be set to allow access to any website for the feature
+         * @param domains A list of domains that the sector should be set to allow access to
+         */
+        constructor(key: CSPSectors, none: boolean, directives: Array<CSPDirectives | string>, self: boolean, wildcard: boolean, domains: Array<string>)
     }
     /**
      * Report To Group
      * 
      * An object that contains all the necessary information to setup a segment of the Report-To header
      * 
-     * [MDN Docs Referance](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Report-To)
+     * {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Report-To MDN Docs Referance}
      */
-    export declare class ReportToGroup {
+    export class ReportToGroup {
         /** The Identifier of the specific Report-To Group */
         group: string;
         /** The maximum age of the Report-To Group */
         maxAge: number;
         /** A list of endpoints for the Report-To Group */
         endpoints: Array<string>;
-        constructor(
-            /** The Identifier of the specific Report-To Group */
-            group: string,
-            /** The maximum age of the Report-To Group */
-            maxAge: number,
-            /** A list of endpoints for the Report-To Group */
-            endpoints: Array<string>,
-        )
+        /**
+         * @param group The Identifier of the specific Report-To Group
+         * @param maxAge The maximum age of the Report-To Group
+         * @param endpoints A list of endpoints for the Report-To Group
+         */
+        constructor(group: string, maxAge: number, endpoints: Array<string>)
     }
     /**
      * Reporting Endpoint
      * 
      * An object that contains all the necessary information to setup a segment of the Reporting-Endpoints header
      * 
-     * [MDN Docs Referance](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Reporting-Endpoints)
+     * {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Reporting-Endpoints MDN Docs Referance}
      */
-    export declare class ReportingEndpoint {
+    export class ReportingEndpoint {
         /** The Identifier of the specific Reporting Endpoint */
         id: string;
         /** The URL to send reports to */
         url: string;
-        constructor(
-            id: string,
-            url: string
-        )
+        /**
+         * @param id The Identifier of the specific Reporting Endpoint
+         * @param url The URL to send reports to
+         */
+        constructor(id: string, url: string)
     }
     /**
      * Permission Policy Data
      * 
      * An object that contains all the necessary information to setup a segment of the Permission Policy header
      * 
-     * [MDN Docs Referance](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions_Policy)
+     * {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions_Policy MDN Docs Referance}
      */
-    export declare class PermissionPolicy {
+    export class PermissionPolicy {
         /** The Identifier of the specific Permission Policy */
         key: PermissionPolicySectors;
         /** Whether or not the directive should be set to completely disable access to the PermissionPolicy */
@@ -339,31 +343,34 @@ declare module '@therealbenpai/zdcors' {
         src: boolean;
         /** A list of domains that the directive should be set to allow access to */
         domains: Array<string>;
-        constructor(
-            /** The Identifier of the specific Permission Policy */
-            key: PermissionPolicySectors,
-            /** The data for the Permission Policy */
-            data: PermissionPolicyObj
-        )
+        /**
+         * @param key The Identifier of the specific Permission Policy
+         * @param data The data for the Permission Policy
+         */
+        constructor(key: PermissionPolicySectors, data: PermissionPolicyObj)
     }
 
-    declare interface HeadersInterface {
+    interface HeadersInterface {
         /** The array of CORS Headers */
-        CORS: Array<string>
+        CORS: Array<string>;
         /** The HSTS Header */
-        CSP: string
+        CSP: string;
         /** The Report-To Header */
-        HSTS: string
+        HSTS: string;
         /** The Reporting-Endpoints Header */
-        ReportTo: string
+        ReportTo: string;
         /** The Permission Policy Header */
-        ReportingEndpoints: string
+        ReportingEndpoints: string;
         /** The Permission Policy Header */
-        PermissionPolicy: string
+        PermissionPolicy: string;
     }
 
-    export declare const Headers: (
-        /** The Headers to be setup */
-        headers: HeadersInterface
-    ) => (_req: IncomingMessage, res: OutgoingMessage, next: () => void) => void
+    /**
+     * Headers Middleware
+     * 
+     * A middleware function that sets all the necessary headers for a secure web server
+     * 
+     * @param headers The Headers to be setup
+     */
+    export const Headers: (headers: HeadersInterface) => express.RequestHandler
 }
