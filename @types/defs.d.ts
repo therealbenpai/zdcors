@@ -1,19 +1,14 @@
 import * as express from './express'
 
 /**
- * Module: `@therealbenpai/zdcors`
- * 
+ * @version 1.3.0
+ * @license GNU General Public License v3.0 (GPL-3.0)
+ * @description
  * This module is a HTTP Security Headers generator that allows for quick and easy generation of basic HTTP security headers.
  * 
  * This module is designed to be used in a Node.js environment and is not intended for use in a browser environment.
  * 
- * The module follows the specifications set forth by the Mozilla Developer Network (MDN) and the World Wide Web Consortium (W3C).
- * 
- * @license GPL-3.0-or-later
- * @copyright
- * 2024 © TheRealBenpai (in association with The FemDevs). All Rights Reserved.
- *
- * Removal of this copyright notice is prohibited under 17 U.S.C. §§ 101-810 and 44 U.S.C. §§ 505, 2113; 18 U.S.C. § 2318 (Copyright Act of 1976).
+ * The module follows the specifications set forth by the {@link https://developer.mozilla.org/ Mozilla Developer Network (MDN)} and the {@link https://www.w3.org/ World Wide Web Consortium (W3C)}.
  */
 declare module '@therealbenpai/zdcors' {
     /**
